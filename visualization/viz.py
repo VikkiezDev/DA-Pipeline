@@ -2,6 +2,8 @@
 import sqlalchemy
 import pymysql
 import pandas as pd
+import matplotlib as plt
+import seaborn as sns
 
 # Replace these with your actual MySQL database credentials
 username = "your_username"
@@ -13,8 +15,14 @@ database = "your_database_name"
 # Create the SQLAlchemy engine for MySQL
 engine = sqlalchemy.create_engine(f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}")
 
-# Load data into MySQL
-df.to_sql('your_table_name', engine, if_exists='replace', index=False)
+# Function to access data from MySQL table
+def load_sql_data(query):
+    try:
+        df = pd.read_sql_query(query, engine)
+        return df
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 
 # Query data from MySQL
 query = "SELECT * FROM your_table_name"
