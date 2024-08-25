@@ -1,19 +1,19 @@
 from sqlalchemy import create_engine
 import pandas as pd
 
-def load_to_sql(data):
-    # Convert the transformed data to a DataFrame
-    df = pd.DataFrame(data)
+# def load_to_sql(data):
+# Convert the transformed data to a DataFrame
+df = pd.read_csv("/home/vignesh-nadar/Desktop/sixtyDays/sprint1/project1/data/raw_data/data.csv")
 
-    # Database connection string
-    username = 'your_username'
-    password = 'your_password'
-    host = 'localhost'
-    database = 'your_database_name'
+# Database connection string
+username = 'vikkiez'
+password = 'Vikky#844'
+host = 'localhost'
+database = 'test'
 
-    # Create SQLAlchemy engine
-    engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
+# Create SQLAlchemy engine
+engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
 
-    # Load data into the SQL database
-    df.to_sql('your_table_name', engine, if_exists='replace', index=False)
-    print("Data loaded successfully into the SQL database.")
+# Load data into the SQL database
+df.to_sql('newTable', engine, if_exists='replace', index=False)
+print("Data loaded successfully into the SQL database.")
