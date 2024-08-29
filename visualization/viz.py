@@ -2,15 +2,16 @@
 import sqlalchemy
 import pymysql
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Replace these with your actual MySQL database credentials
-username = "your_username"
-password = "your_password"
-host = "your_host"
-port = "3306"  # Default MySQL port
-database = "your_database_name"
+# Database connection string
+username = 'vikkiez'
+password = 'Vikky#844'
+host = 'localhost'
+database = 'test'
+port = "3306"
 
 # Create the SQLAlchemy engine for MySQL
 engine = sqlalchemy.create_engine(f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}")
@@ -24,28 +25,19 @@ def load_sql_data(query):
         print(f"An error occurred: {e}")
         return None
 
-# Query data from MySQL
-query = "SELECT * FROM your_table_name"
-df = pd.read_sql_query(query, engine)
-
-def load_sql_data(query):
-    return pd.read_sql_query(query, engine)
-
-def create_bar_chart(df, x, y, title):
+# Function to generate a bar plot
+def barplot(query):
+    df = load_sql_data(query)
+    location_counts = df['location'].value_counts().reset_index()
+    location_counts.columns = ['location', 'job_count']
     plt.figure(figsize=(10, 6))
-    sns.barplot(x=x, y=y, data=df)
-    plt.title(title)
-    plt.savefig(f'{title.lower().replace(" ", "_")}.png')
+    sns.barplot(x='location', y='job_count', data=location_counts)
+    plt.xticks(rotation=45, ha='right')
+    plt.title('Job Distribution by Location')
+    plt.xlabel('Location')
+    plt.ylabel('Number of Jobs')
+    plt.tight_layout()
+    plt.savefig('/home/vignesh-nadar/Desktop/sixtyDays/sprint1/project1/visualization/job_distribution_by_location_bar.png')
     plt.close()
 
-def create_line_chart(df, x, y, title):
-    plt.figure(figsize=(10, 6))
-    sns.lineplot(x=x, y=y, data=df)
-    plt.title(title)
-    plt.savefig(f'{title.lower().replace(" ", "_")}.png')
-    plt.close()
-
-# Usage
-df = load_sql_data("SELECT * FROM your_table_name")
-create_bar_chart(df, 'category', 'value', 'Sales by Category')
-create_line_chart(df, 'date', 'value', 'Sales Over Time')
+barplot("SELECT location FROM jobsTable")

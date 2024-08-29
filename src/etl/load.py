@@ -1,9 +1,7 @@
 from sqlalchemy import create_engine
 import pandas as pd
 
-# def load_to_sql(data):
-# Convert the transformed data to a DataFrame
-df = pd.read_csv("/home/vignesh-nadar/Desktop/sixtyDays/sprint1/project1/data/raw_data/data.csv")
+df = pd.read_csv("/home/vignesh-nadar/Desktop/sixtyDays/sprint1/project1/data/processed_data/processed_data.csv")
 
 # Database connection string
 username = 'vikkiez'
@@ -15,5 +13,5 @@ database = 'test'
 engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}/{database}')
 
 # Load data into the SQL database
-df.to_sql('newTable', engine, if_exists='replace', index=False)
+df.to_sql('jobsTable', engine, if_exists='replace', index=False)
 print("Data loaded successfully into the SQL database.")
